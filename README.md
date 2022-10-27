@@ -1,5 +1,5 @@
 # tokyo
-UTM/U-SPACE deck.gl wrapper for svelte
+
 This library was generated with [Nx](https://nx.dev).
 
 ## Running unit tests

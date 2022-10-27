@@ -1,0 +1,29 @@
+{
+  "root": "libs/openCIELUM-tokyo",
+  "sourceRoot": "libs/openCIELUM-tokyo/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/openCIELUM-tokyo/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/openCIELUM-tokyo"
+      ],
+      "options": {
+        "jestConfig": "libs/openCIELUM-tokyo/jest.config.ts",
+				"passWithNoTests": true
+			}
+		}
+	}
+}
