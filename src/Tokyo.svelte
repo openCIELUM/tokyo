@@ -1,8 +1,8 @@
 <script lang="ts" context="module">
-	import {MapView} from '@deck.gl/core/typed';
-	import {Deck} from '@deck.gl/core/typed';
-	import {TokyoMapElement, TokyoMapProps, TokyoViewMode} from './TokyoTypes';
-	import {Polygon} from 'geojson';
+	import { MapView } from '@deck.gl/core/typed';
+	import { Deck } from '@deck.gl/core/typed';
+	import { TokyoMapElement, TokyoMapProps, TokyoViewMode } from './TokyoTypes';
+	import { Polygon } from 'geojson';
 
 	const initialViewState = {
 		latitude: 40.407613,
@@ -14,10 +14,11 @@
 		maxPitch: 0,
 		minPitch: 0
 	};
+
 	const mapView = new MapView({
 		id: 'map-base',
 		repeat: true,
-		controller: {scrollZoom: {smooth: true, speed: 0.025}}
+		controller: { scrollZoom: { smooth: true, speed: 0.025 } }
 	});
 
 	export enum TokyoEditMode {
@@ -44,14 +45,13 @@
 </script>
 
 <script lang="ts">
-	import {onDestroy, onMount} from 'svelte';
-	import {deck, viewMode, viewState, editMode} from './TokyoStore';
-	import {renderLayers} from './internal/renderLayers';
-	import {setMapOnClick} from './internal/setMapOnClick';
+	import { onDestroy, onMount } from 'svelte';
+	import { deck, viewMode, viewState, editMode } from './TokyoStore';
+	import { renderLayers } from './internal/renderLayers';
+	import { setMapOnClick } from './internal/setMapOnClick';
 	import _ from 'lodash';
 
-	interface $$Props extends TokyoMapProps {
-	}
+	interface $$Props extends TokyoMapProps {}
 
 	export let elements: $$Props['elements'] = [];
 	export let onPick: $$Props['onPick'] = null;
@@ -64,7 +64,7 @@
 	let selectedEditablePolygon = null;
 
 	const onEditThrottled = onEdit
-		? _.throttle(onEdit, 1000, {leading: false, trailing: true})
+		? _.throttle(onEdit, 1000, { leading: false, trailing: true })
 		: null;
 
 	function onInternalEdit(_value) {
@@ -91,11 +91,11 @@
 		$deck = new Deck({
 			canvas: canvas,
 			initialViewState: preloadedViewState ?? initialViewState,
-			onViewStateChange: ({viewState: _viewState}) => {
+			onViewStateChange: ({ viewState: _viewState }) => {
 				$viewState = _viewState;
 			},
 			views: mapView,
-			layerFilter: ({layer, isPicking}) => {
+			layerFilter: ({ layer, isPicking }) => {
 				return !(layer.id === 'TileLayer' && isPicking); // Don't show TileLayer as an picking option
 			}
 		});
@@ -136,7 +136,7 @@
 	$: {
 		if ($editMode !== TokyoEditMode.INACTIVE) {
 			if (localStorage.getItem('TOKYO_EDITABLEPOLYGONS')) {
-				if (window.confirm("Tienes cambios sin guardar, ¿quieres cargarlos?")) {
+				if (window.confirm('Tienes cambios sin guardar, ¿quieres cargarlos?')) {
 					onInternalEdit(JSON.parse(localStorage.getItem('TOKYO_EDITABLEPOLYGONS')));
 				} else {
 					localStorage.removeItem('TOKYO_EDITABLEPOLYGONS');
@@ -148,7 +148,7 @@
 </script>
 
 <div id="tokyo-container" on:contextmenu={(evt) => evt.preventDefault()}>
-	<canvas id="map" bind:this={canvas}/>
+	<canvas id="map" bind:this={canvas} />
 </div>
 
 <style>
