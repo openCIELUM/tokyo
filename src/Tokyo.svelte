@@ -14,6 +14,7 @@
 		maxPitch: 0,
 		minPitch: 0
 	};
+	// algo
 
 	const mapView = new MapView({
 		id: 'map-base',
