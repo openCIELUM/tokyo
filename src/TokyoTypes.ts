@@ -294,6 +294,7 @@ export interface TokyoMapProps {
 	onPick?: (elements: TokyoPick[]) => void;
 	onEditingPolygonSelect?: (selected: number) => void;
 	editingSingleVolume?: boolean;
+	defaultPolygons?: Polygon[];
 }
 
 export enum TokyoViewMode {
