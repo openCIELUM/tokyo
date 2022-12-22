@@ -60,6 +60,7 @@
 	export let editingSingleVolume: $$Props['editingSingleVolume'] = false;
 
 	let canvas;
+	export let defaultPolygons: $$Props['defaultPolygons'] = [];
 	let editablePolygons: Polygon[] = [];
 	let selectedEditablePolygon = null;
 
@@ -73,7 +74,6 @@
 			value = value.slice(0, 1);
 		}
 		editablePolygons = value;
-		localStorage.setItem('TOKYO_EDITABLEPOLYGONS', JSON.stringify(value));
 		if (onEditThrottled) onEditThrottled(value);
 	}
 
@@ -110,6 +110,11 @@
 		}
 	});
 
+	$: {
+		if (defaultPolygons && editablePolygons.length === 0) {
+			onInternalEdit(defaultPolygons);
+		}
+	}
 	onDestroy(() => {
 		localStorage.setItem('TOKYO_VIEWSTATE', JSON.stringify($viewState));
 		$editMode = TokyoEditMode.INACTIVE;
@@ -133,17 +138,6 @@
 	} as TokyoInternalState; // Consume state in called functions directly from here
 	$: renderLayers(state);
 	$: setMapOnClick(state);
-	$: {
-		if ($editMode !== TokyoEditMode.INACTIVE) {
-			if (localStorage.getItem('TOKYO_EDITABLEPOLYGONS')) {
-				if (window.confirm('Tienes cambios sin guardar, ¿quieres cargarlos?')) {
-					onInternalEdit(JSON.parse(localStorage.getItem('TOKYO_EDITABLEPOLYGONS')));
-				} else {
-					localStorage.removeItem('TOKYO_EDITABLEPOLYGONS');
-				}
-			}
-		}
-	}
 	//$: console.table({ view: state.view, edit: state.edit });
 </script>
 
